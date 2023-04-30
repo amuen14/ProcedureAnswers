@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Primary Action Item</title>
+</head>
+<body>
+    <h1>Add Primary Action Item</h1>
+    <form method="POST">
+        {{ form.csrf_token }}
+        <div>
+            {{ form.description.label }}
+            {{ form.description }}
+        </div>
+        <div>
+            {{ form.owner.label }}
+            {{ form.owner }}
+        </div>
+        <div>
+            {{ form.due_date.label }}
+            {{ form.due_date }}
+        </div>
+        <button type="submit
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

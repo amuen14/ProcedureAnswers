@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Action Items</title>
+  </head>
+  <body>
+    <h1>Action Items</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Owner</th>
+          <th>Due Date</th>
+          <th># of Open Sub Items</th>
+          <th>Open or Closed</th>
+        </tr>
+      </thead>
+      <tbody id="action-items">
+        <!-- Action items will be dynamically added here using JavaScript -->
+      </tbody>
+    </table>
+    <br>
+    <button onclick="openAddModal()">Add New Action Item</button>
+
+
+    <div id="add-modal" style="display: none">
+      <form>
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description"><br>
+
+        <label for="owner">Owner:</label><br>
+        <input type="text" id="owner" name="owner"><br>
+
+        <label for="due-date">Due Date:</label><br>
+        <input type="date" id="due-date" name="due-date"><br>
+
+        <input type="submit" value="Add" onclick="addNewActionItem()">
+        <button onclick="closeAddModal()">Cancel</button>
+      </form>
+    </div>
+    <a href="/add_action_item">Add New Action Item</a>
+    <script src="app.js"></script>
+  </body>
+</html>

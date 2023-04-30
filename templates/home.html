@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Management Tool</title>
+</head>
+<body>
+    <h1>Project Management Tool</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Owner</th>
+                <th>Due Date</th>
+                <th>Secondary Action Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for primary_item in primary_items %}
+                <tr>
+                    <td>{{ primary_item.id }}</td>
+                    <td>{{ primary_item.description }}</td>
+                    <td>{{ primary_item.owner }}</td>
+                    <td>{{ primary_item.due_date.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        {% for secondary_item in secondary_items if secondary_item.primary_item_id == primary_item.id %}
+                            <ul>
+                                <li>{{ secondary_item.description }}</li>
+                                <li>{{ secondary_item.owner }}</li>
+                                <li>{{ secondary_item.due_date.strftime('%Y-%m-%d') }}</li>
+                            </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/add-primary-item">Add Primary Action XXX Item</a>
+    <br>
+    <a href="/add-secondary-item">Add Secondary Action Item</a>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Table X </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dataframe as Table</h1>
+        <table class="table table-bordered", id="myTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Owner</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in lst %}
+                <tr class="myTableRow">
+<!--                    <td><a href="/x/{{ x.Prim_desc }}">{{ x.Prim_desc }}</a></td>-->
+                    <td><a href="{{ url_for('filterTBL', primary_action_id=x.Prim_desc, primary_owner = x.Prim_owner, category = x.Category) }}">{{ x.Prim_desc }}</a></td>
+
+                    <td>{{ x.Prim_owner }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <form action="/add_Primary_Item" method="POST">
+          <label for="category">Choose a category:</label> <br>
+          <select name="category" id="category">
+            <option value="CID">CID</option>
+            <option value="CAPA">CAPA</option>
+            <option value="Customer Return">CustRet</option>
+            <option value="QEM">QEM</option>
+          </select>
+        <br>
+        <input type="text" name="Prim_desc" placeholder="Item name"><br>
+        <input type="text" name="Prim_owner" placeholder="Primary Owner"><br>
+        <input type="submit" value="Add Item">
+    </form>
+    <form action="/">
+        <input type="submit" value="Display Table">
+        <input type="text" id="myTextbox" value="" />
+    </form>
+
+    <script>
+        // Get all the rows in the table body
+        const rows = document.querySelectorAll("#myTable tbody tr");
+
+        // Add event listeners to each row
+        rows.forEach(row => {
+            row.addEventListener("mouseover", () => {
+                // Get the first cell in the row and its value
+                const firstCell = row.cells[0];
+                const cellValue = firstCell.textContent.trim();
+
+
+                // Set the value of the text box to the cell value
+                const textBox = document.getElementById("myTextbox");
+                textBox.value = cellValue;
+            });
+        });
+    </script>
+
+
+
+
+
+
+</body>
+</html>

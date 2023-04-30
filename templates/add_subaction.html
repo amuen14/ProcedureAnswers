@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add Subaction</h1>
+  <form method="POST" action="{{ url_for('add_subaction', primary_action_id=primary_action.id) }}">
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" name="description" id="description" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="owner">Owner:</label>
+      <input type="text" name="owner" id="owner" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="due_date">Due Date:</label>
+      <input type="date" name="due_date" id="due_date" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Subaction</button>
+  </form>
+{% endblock %}

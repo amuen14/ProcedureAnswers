@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management Action Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Project Management Action Tracker</h1>
+        <hr>
+        <form action="{{ url_for('search') }}" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" placeholder="Search by Primary Action Description...">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="button" id="unique-values-btn" class="btn btn-primary">Get Unique Values</button>
+                </span>
+            </div>
+        </form>
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Primary Action</th>
+                    <th>Owner</th>
+                    <th>Due Date</th>
+                    <th>Open Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for primary_action in primary_actions %}
+                    <tr class="{{ primary_action.row_class }}">
+                        <td>
+                            <a href="{{ url_for('add_primary_action', primary_action_id=primary_action.id) }}">{{ primary_action.description }}</a>
+
+<!--                            {% if primary_action.subactions %}-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    {% for subaction in primary_action.subactions %}-->
+<!--                                        <li>-->
+<!--                                            <a href="{{ url_for('subaction_detail', subaction_id=subaction.id) }}">{{ subaction.description }}</a>-->
+<!--                                            {% if subaction.row_class %}-->
+<!--                                                <span class="label {{ subaction.row_class }}">Past Due</span>-->
+<!--                                            {% endif %}-->
+<!--                                        </li>-->
+<!--                                    {% endfor %}-->
+<!--                                </ul>-->
+<!--                            {% endif %}-->
+                        </td>
+                        <td>{{ primary_action.owner }}</td>
+                        <td>{{ primary_action.due_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <a href="{{ url_for('add_primary_action') }}" class="btn btn-success">Add Primary Action</a>
+
+        <script type="text/javascript">
+            // Get the button element
+            var button = document.getElementById("unique-values-btn");
+
+            // Add a click event listener to the button
+            button.addEventListener("click", function() {
+                // Send an HTTP GET request to the unique_values endpoint
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/unique_values");
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // On success, open a new window to display the response text
+                        window.open("", "Unique Values", "height=400,width=600");
+                        var newWindow = window.open("", "Unique Values");
+                        newWindow.document.write(xhr.responseText);
+                    } else {
+                        // On error, log the status and response text to the console
+                        console.log("Request failed. Status: " + xhr.status + ". Response text: " + xhr.responseText);
+                    }
+                };
+                xhr.send();
+            });
+        </script>
+
+
+
+
+
+    </div>
+</body>
+</html>
+
+

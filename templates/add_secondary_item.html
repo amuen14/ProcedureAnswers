@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Secondary Action Item</title>
+</head>
+<body>
+    <h1>Add Secondary Action Item</h1>
+    <form method="POST">
+        {{ form.csrf_token }}
+        <div>
+            {{ form.primary_item_id.label }}
+            {{ form.primary_item_id }}
+        </div>
+        <div>
+            {{ form.description.label }}
+            {{ form.description }}
+        </div>
+        <div>
+            {{ form.owner.label }}
+            {{ form.owner }}
+        </div>
+        <div>
+            {{ form.due_date.label }}
+            {{ form.due_date }}
+        </div>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

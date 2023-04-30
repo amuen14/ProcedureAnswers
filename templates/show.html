@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Show Action Item</title>
+</head>
+<body>
+	<h1>Show Action Item</h1>
+	<table>
+		<tr>
+			<th>Description</th>
+			<td>{{ action_item.description }}</td>
+		</tr>
+		<tr>
+			<th>Owner</th>
+			<td>{{ action_item.owner }}</td>
+		</tr>
+		<tr>
+			<th>Due Date</th>
+			<td>{{ action_item.due_date }}</td>
+		</tr>
+		<tr>
+			<th># of Open Sub Items</th>
+			<td>{{ action_item.open_sub_items }}</td>
+		</tr>
+		<tr>
+			<th>Status</th>
+			<td>{{ action_item.status }}</td>
+		</tr>
+	</table>
+	<br>
+	<a href="{{ url_for('edit', id=action_item.id) }}">Edit Action Item</a>
+	<br>
+	<a href="{{ url_for('delete', id=action_item.id) }}">Delete Action Item</a>
+</body>
+</html>
