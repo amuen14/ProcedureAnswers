@@ -247,6 +247,7 @@ def add_P_item():
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
     print(tables)
+    print(tables)
 
     query = f'SELECT * FROM LISTS'
 
