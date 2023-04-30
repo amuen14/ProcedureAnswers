@@ -7,6 +7,8 @@ from flask import Flask, render_template, request, redirect
 db = SqliteDatabase('my_database.db')
 app = Flask(__name__)
 
+print("does this work?")
+
 # Create tables
 
 
