@@ -14,6 +14,9 @@
                 <tr>
                     <th>Item</th>
                     <th>Owner</th>
+                    <th>Open Actions</th>
+                    <th>Over Due</th>
+                    <th>% Complete on Time</th>
 
                 </tr>
             </thead>
@@ -22,8 +25,13 @@
                 <tr class="myTableRow">
 <!--                    <td><a href="/x/{{ x.Prim_desc }}">{{ x.Prim_desc }}</a></td>-->
                     <td><a href="{{ url_for('filterTBL', primary_action_id=x.Prim_desc, primary_owner = x.Prim_owner, category = x.Category) }}">{{ x.Prim_desc }}</a></td>
-
                     <td>{{ x.Prim_owner }}</td>
+                    <td>{{ x.Open_Actions }}</td>
+                    <td>{{ x.Over_Due }}</td>
+                    <td>{{ x.Perc_On_Time }}</td>
+
+
+
                 </tr>
                 {% endfor %}
             </tbody>

@@ -2,6 +2,8 @@ from peewee import *
 import sqlite3
 import pandas as pd
 from flask import Flask, render_template, request, redirect
+import datetime
+import numpy as np
 
 # Define your database
 db = SqliteDatabase('my_database.db')
@@ -167,6 +169,30 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def count_nan(series):
+    return np.isnan(series).sum()
+
+
+def format_df():
+    str = 'C:\\Users\\223037435\\Desktop\\Plant II\\df.csv'
+    df = pd.read_csv(str)
+    df['Open_Actions'] = df['is_date1_after_date2']
+    df['DUEDATE'] = pd.to_datetime(df['DUEDATE'])
+    today = datetime.datetime.now().date()
+    df['Over_Due'] = ((df['DUEDATE'].dt.date < today) & (df['COMPDATE'].isna())).astype(int)
+    df = df.rename(columns={'is_date1_after_date2': 'Late'})
+    df['Completed'] = df['Late'] + df['On_Time']
+    df0 = df
+    print(df.columns)
+    df =df.groupby(['Category', 'PRIM_DESC', 'PRIM_OWNER']).agg({'On_Time': 'sum', 'Late': 'sum','Open_Actions': count_nan, 'Completed':'sum', 'Over_Due': 'sum'})
+    df = pd.DataFrame(df).reset_index()
+    df['Perc_On_Time'] = (df['On_Time'] / df['Completed'] *100).map('{:.1f}%'.format)
+    df['Perc_On_Time'] = df['Perc_On_Time'].replace('nan%','')
+    return df
+
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def display_table():
     #users = User.select()
@@ -190,13 +216,18 @@ def display_table():
 #     conn.execute('BEGIN')
 #
 #     # Add column to the table
-#     conn.execute('ALTER TABLE LISTS ADD COLUMN is_date1_after_date2 BOOLEAN')
+#     conn.execute('ALTER TABLE LISTS RENAME COLUMN "On Time" TO On_Time')
+    # conn.execute('ALTER TABLE LISTS RENAME COLUMN "Over Due" TO Over_Due')
 #
 #     # Update the values in the column
     sql1="UPDATE LISTS SET is_date1_after_date2 = (strftime('%Y-%m-%d', 'now') < date(COMPDATE));"
-    sql1 = "UPDATE LISTS SET is_date1_after_date2 = date(DUEDATE) > date(COMPDATE);"
-
+    sql1 = "UPDATE LISTS SET is_date1_after_date2 = date(DUEDATE) < date(COMPDATE);"
     conn.execute(sql1)
+    sql1 = "UPDATE LISTS SET 'On_Time' = date(DUEDATE) > date(COMPDATE);"
+    conn.execute(sql1)
+    # sql1 = "UPDATE LISTS SET 'Over Due' = CASE WHEN date('now') > date(DUEDATE) AND COMPDATE IS NULL THEN 1 ELSE 0 END;"
+    # conn.execute(sql1)
+
     # conn.execute('UPDATE LISTS SET is_date1_after_date2 = (DUEDATE > COMPDATE)')
 #
 #     # Commit the transaction
@@ -208,10 +239,10 @@ def display_table():
         'GROUP BY PRIM_DESC, PRIM_OWNER'
 
     sql ="SELECT PRIM_Owner, PRIM_DESC, "\
-       "SUM(CASE WHEN is_date1_after_date2 = 1.0 THEN 1 ELSE 0 END) AS is_date1_after_date2_count, "\
-       "SUM(CASE WHEN is_date1_after_date2 IS NULL THEN 1 ELSE 0 END) AS null_count, " \
-        "SUM(CASE WHEN COMPDATE IS NULL THEN 1 ELSE 0 END) AS OPEN " \
-    "FROM LISTS "\
+       "SUM(CASE WHEN is_date1_after_date2 = 1.0 THEN 1 ELSE 0 END) AS 'Completed On Time', " \
+         "SUM(CASE WHEN is_date1_after_date2 = 0.0 THEN 1 ELSE 0 END) AS 'Not Completed On Time', " \
+         "SUM(CASE WHEN is_date1_after_date2 IS NULL THEN 1 ELSE 0 END) AS 'Open Actions' " \
+       "FROM LISTS "\
         "GROUP BY PRIM_OWNER, PRIM_DESC;"
 
     sql2 = 'SELECT * FROM LISTS'
@@ -224,10 +255,14 @@ def display_table():
     df2 = pd.read_sql_query(sql2,conn)
     print(df2)
     print(df)
-
+    df2.to_csv('C:\\Users\\223037435\\Desktop\\Plant II\\df.csv', index=False)
+    df3 = format_df()
+    df3.to_sql('mytable', conn, if_exists='replace', index=False)
+    print(df3)
+    LISTS2 = conn.execute('SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable').fetchall()
 
     conn.close()
-    return render_template('table2.html', lst=LISTS)
+    return render_template('table2.html', lst=LISTS2)
 
 
 
