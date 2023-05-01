@@ -181,12 +181,51 @@ def display_table():
     sql = 'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER FROM LISTS'
     LISTS = conn.execute('SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER FROM LISTS').fetchall()
 
+    # sql='SELECT PRIM_DESC, PRIM_OWNER, COUNT(*) AS "Total Count", COUNT(DUEDATE) AS "Total Open" '\
+    #     'FROM LISTS '\
+    #     'GROUP BY PRIM_DESC, PRIM_OWNER'
+
+# ###################
+#     # Begin transaction
+#     conn.execute('BEGIN')
+#
+#     # Add column to the table
+#     conn.execute('ALTER TABLE LISTS ADD COLUMN is_date1_after_date2 BOOLEAN')
+#
+#     # Update the values in the column
+    sql1="UPDATE LISTS SET is_date1_after_date2 = (strftime('%Y-%m-%d', 'now') < date(COMPDATE));"
+    sql1 = "UPDATE LISTS SET is_date1_after_date2 = date(DUEDATE) > date(COMPDATE);"
+
+    conn.execute(sql1)
+    # conn.execute('UPDATE LISTS SET is_date1_after_date2 = (DUEDATE > COMPDATE)')
+#
+#     # Commit the transaction
+#     conn.commit()
+# ###################
+
     sql='SELECT PRIM_DESC, PRIM_OWNER, COUNT(*) AS "Total Count", COUNT(DUEDATE) AS "Total Open" '\
         'FROM LISTS '\
         'GROUP BY PRIM_DESC, PRIM_OWNER'
 
+    sql ="SELECT PRIM_Owner, PRIM_DESC, "\
+       "SUM(CASE WHEN is_date1_after_date2 = 1.0 THEN 1 ELSE 0 END) AS is_date1_after_date2_count, "\
+       "SUM(CASE WHEN is_date1_after_date2 IS NULL THEN 1 ELSE 0 END) AS null_count, " \
+        "SUM(CASE WHEN COMPDATE IS NULL THEN 1 ELSE 0 END) AS OPEN " \
+    "FROM LISTS "\
+        "GROUP BY PRIM_OWNER, PRIM_DESC;"
+
+    sql2 = 'SELECT * FROM LISTS'
+
+
+    print(sql)
+
+
     df = pd.read_sql_query(sql, conn)
+    df2 = pd.read_sql_query(sql2,conn)
+    print(df2)
     print(df)
+
+
     conn.close()
     return render_template('table2.html', lst=LISTS)
 
