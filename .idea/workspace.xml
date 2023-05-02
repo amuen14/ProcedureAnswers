@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c60e91-fe99-4df5-9623-369bfcbc0ee3" name="Changes" comment="update">
+    <list default="true" id="d6c60e91-fe99-4df5-9623-369bfcbc0ee3" name="Changes" comment="Added open actions, overdue, % on time display on main table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_database.db" beforeDir="false" afterPath="$PROJECT_DIR$/my_database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Table2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Table2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/table3.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/table3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zz.py" beforeDir="false" afterPath="$PROJECT_DIR$/zz.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682873537445</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added open actions, overdue, % on time display on main table">
+      <created>1682973641275</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682973641275</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,6 +211,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="Added open actions, overdue, % on time display on main table" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added open actions, overdue, % on time display on main table" />
   </component>
 </project>

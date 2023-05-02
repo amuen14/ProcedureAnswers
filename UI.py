@@ -183,11 +183,11 @@ def format_df():
     df = df.rename(columns={'is_date1_after_date2': 'Late'})
     df['Completed'] = df['Late'] + df['On_Time']
     df0 = df
-    print(df.columns)
     df =df.groupby(['Category', 'PRIM_DESC', 'PRIM_OWNER']).agg({'On_Time': 'sum', 'Late': 'sum','Open_Actions': count_nan, 'Completed':'sum', 'Over_Due': 'sum'})
     df = pd.DataFrame(df).reset_index()
     df['Perc_On_Time'] = (df['On_Time'] / df['Completed'] *100).map('{:.1f}%'.format)
     df['Perc_On_Time'] = df['Perc_On_Time'].replace('nan%','')
+
     return df
 
 
@@ -196,10 +196,13 @@ def format_df():
 @app.route('/', methods=['GET', 'POST'])
 def display_table():
     #users = User.select()
-
+    category = 'CID'
     #lst = LST.select()
     if request.method == 'POST' and 'Display Table' in request.form.values():
         print("X")
+    if request.method == 'POST':
+        category = request.form['category']
+        print(category)
 
     #create_table_sqlite()
     conn = get_db_connection()
@@ -253,13 +256,20 @@ def display_table():
 
     df = pd.read_sql_query(sql, conn)
     df2 = pd.read_sql_query(sql2,conn)
-    print(df2)
-    print(df)
+    # print(df2)
+    # print(df)
     df2.to_csv('C:\\Users\\223037435\\Desktop\\Plant II\\df.csv', index=False)
+    print(category)
     df3 = format_df()
-    df3.to_sql('mytable', conn, if_exists='replace', index=False)
+
     print(df3)
-    LISTS2 = conn.execute('SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable').fetchall()
+    df3 = df3[df3['Category']==category]
+    print(df3)
+    # conn.execute('DROP TABLE IF EXISTS mytable')
+
+    df3.to_sql('mytable', conn, if_exists='replace', index=False)
+
+    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable').fetchall()
 
     conn.close()
     return render_template('table2.html', lst=LISTS2)
