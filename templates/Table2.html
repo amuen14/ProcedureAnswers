@@ -98,21 +98,23 @@
 <script>
 
 function updateTable() {
+
     var category = document.getElementById("category").value;
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/");
-    xhr.send()
+    xhr.open("POST", "/Y");
+<!--    xhr.send();-->
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                // refresh the table with the new data
-                // ...
-            } else {
-                console.log('Error:', xhr.status);
-            }
-        }
-    };
+<!--    xhr.onreadystatechange = function() {-->
+<!--        if (xhr.readyState === XMLHttpRequest.DONE) {-->
+<!--        console.log("?");-->
+<!--            if (xhr.status === 200) {-->
+<!--                // refresh the table with the new data-->
+<!--                // ...-->
+<!--            } else {-->
+<!--                console.log('Error:', xhr.status);-->
+<!--            }-->
+<!--        }-->
+<!--    };-->
     xhr.send("category=" + encodeURIComponent(category));
 }
 </script>

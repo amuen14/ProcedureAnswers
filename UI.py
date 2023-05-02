@@ -191,6 +191,12 @@ def format_df():
     return df
 
 
+@app.route('/Y', methods=['POST'])
+def Y():
+    print("X")
+    category = request.form['category']
+    print(category)
+    return redirect('/')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -204,11 +210,12 @@ def display_table():
         category = request.form['category']
         print(category)
 
+
     #create_table_sqlite()
     conn = get_db_connection()
     # LISTS = conn.execute('SELECT * FROM LISTS').fetchall()
     sql = 'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER FROM LISTS'
-    LISTS = conn.execute('SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER FROM LISTS').fetchall()
+    # LISTS = conn.execute('SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER FROM LISTS').fetchall()
 
     # sql='SELECT PRIM_DESC, PRIM_OWNER, COUNT(*) AS "Total Count", COUNT(DUEDATE) AS "Total Open" '\
     #     'FROM LISTS '\
@@ -251,7 +258,7 @@ def display_table():
     sql2 = 'SELECT * FROM LISTS'
 
 
-    print(sql)
+    # print(sql)
 
 
     df = pd.read_sql_query(sql, conn)
@@ -259,17 +266,23 @@ def display_table():
     # print(df2)
     # print(df)
     df2.to_csv('C:\\Users\\223037435\\Desktop\\Plant II\\df.csv', index=False)
-    print(category)
+    # print(category)
     df3 = format_df()
 
-    print(df3)
+    # print(df3)
     df3 = df3[df3['Category']==category]
-    print(df3)
+    # print(df3)
     # conn.execute('DROP TABLE IF EXISTS mytable')
 
     df3.to_sql('mytable', conn, if_exists='replace', index=False)
 
-    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable').fetchall()
+    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable WHERE CATEGORY = "{category}"').fetchall()
+
+    cursor = conn.cursor()
+    rows = LISTS2
+    # for r in rows:
+    #     print(f'x  {r}')
+
 
     conn.close()
     return render_template('table2.html', lst=LISTS2)
@@ -371,12 +384,6 @@ def filterTBL():
 
 @app.route('/add_action', methods=['POST'])
 def add_action():
-
-
-
-
-
-
     if request.method == 'POST':
         button_name = request.form['button']
         print(button_name)
