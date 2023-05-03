@@ -1,74 +1,55 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
     <title>Compliance Action Tracker</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        .myTableRow:hover {
-            background-color: lightblue;
-        }
 
-        tbody {
-            height:300px;
-            overflow:auto:
-        }
-
-    </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="col-md-12">
-            <h1>Top Level Actions</h1>
-                <form action="/">
-                    <input type="submit" value="Display Table">
-                </form>
-            <table class="table table-bordered", id="myTable">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Owner</th>
-                        <th>Open Actions</th>
-                        <th>Over Due</th>
-                        <th>% Complete on Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for x in lst %}
-    <!--                <tr class="myTableRow">-->
-    <!--                <tr class="myTableRow" style="height: 10px;" onclick="populateActionInput('{{ x.Prim_desc }}')">-->
-                    <tr class="myTableRow" style="height: 10px;">
+        <h1>Top Level Actions</h1>
+<!--        <form action="/" method="POST">-->
+<!--            <select name="category" id="categoryx" onchange="this.form.submit()">-->
 
-    <!--                    <td><a href="/x/{{ x.Prim_desc }}">{{ x.Prim_desc }}</a></td>-->
-                        <td><a href="{{ url_for('filterTBL', primary_action_id=x.Prim_desc, primary_owner = x.Prim_owner, category = x.Category) }}">{{ x.Prim_desc }}</a></td>
-                        <td>{{ x.Prim_owner }}</td>
-                        <td>{{ x.Open_Actions }}</td>
-                        <td>{{ x.Over_Due }}</td>
-                        <td>{{ x.Perc_On_Time }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="bottom-container">
-        <div class="container" id="myForm" >
-            <form action="/add_Primary_Item" method="POST">
-                  <label for="category">Choose a category:</label> <br>
-                      <select name="category" id="category" onchange="document.getElementById('myForm').submit()">
-                        <option value="CID">CID</option>
-                        <option value="CAPA">CAPA</option>
-                        <option value="Customer_Return">CustRet</option>
-                        <option value="QEM">QEM</option>
-                        <option value="CAR">CAR</option>
-                      </select>
-<!--                    <br>-->
-                <input type="text" name="Prim_desc" placeholder="Item name"><br>
-                <input type="text" name="Prim_owner" placeholder="Primary Owner">
-                <input type="submit" value="Add Item">
-            </form>
-       </div>
-    </div>
+<!--                <option value="Overview">Select</option>-->
+<!--                <option value="CID">CID</option>-->
+<!--                <option value="CAPA">CAPA</option>-->
+<!--                <option value="Customer_Return">CustRet</option>-->
+<!--                <option value="QEM">QEM</option>-->
+<!--                <option value="CAR">CAR</option>-->
+
+<!--             </select>-->
+<!--        </form>-->
+        <table class="table table-bordered", id="myTable">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Open Items</th>
+<!--                    <th>Owner</th>-->
+<!--                    <th>Open Actions</th>-->
+<!--                    <th>Over Due</th>-->
+<!--                    <th>% Complete on Time</th>-->
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in lst %}
+                <tr class="myTableRow">
+<!--                    <td><a href="/x/{{ x.Prim_desc }}">{{ x.Prim_desc }}</a></td>-->
+                    <td><a href="{{ url_for('display_table', primary_action_id=x.Prim_desc, primary_owner = x.Prim_owner, category = x.Category) }}">{{ x.Category }}</a></td>
+                    <td>{{ x.Open_Items }}</td>
+<!--                    <td>{{ x.Prim_owner }}</td>-->
+<!--                    <td>{{ x.Open_Actions }}</td>-->
+<!--                    <td>{{ x.Over_Due }}</td>-->
+<!--                    <td>{{ x.Perc_On_Time }}</td>-->
+
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
     <script>
         // Get all the rows in the table body
@@ -89,17 +70,7 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-    // add click event listener to each row in the table
-    $('.myTableRow').click(function() {
-        // remove the class from all rows in the table
-        $('.myTableRow').removeClass('highlighted-row');
-        // add the class to the clicked row
-        $(this).addClass('highlighted-row');
-    });
-});
-    </script>
+
 
 <style>
   .bottom-container {
@@ -112,13 +83,6 @@
       border-top: 1px solid #ccc;
       padding: 20px;
 }
-
-.highlighted-row {
-    background-color: cornsilk;
-    color: black;
-}
-
-
 
 </style>
 

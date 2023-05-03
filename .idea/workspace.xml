@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c60e91-fe99-4df5-9623-369bfcbc0ee3" name="Changes" comment="Added open actions, overdue, % on time display on main table">
-      <change afterPath="$PROJECT_DIR$/templates/CAPA.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/CID.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/df.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dfx.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_database.db" beforeDir="false" afterPath="$PROJECT_DIR$/my_database.db" afterDir="false" />
@@ -29,11 +30,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -46,7 +47,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2NpjJbDe86HJ8QUBDibiv9pkX5A" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -56,12 +59,13 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Amuen/PycharmProjects/ProcedureAnswers/templates",
+    "last_opened_file_path": "C:/Users/223037435/PycharmProjects/ProcedureAnswers/templates",
     "settings.editor.selected.configurable": "vcs.Git"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\223037435\PycharmProjects\ProcedureAnswers\templates" />
       <recent name="C:\Users\Amuen\PycharmProjects\ProcedureAnswers\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -236,6 +240,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit" />
     <MESSAGE value="Added open actions, overdue, % on time display on main table" />
     <option name="LAST_COMMIT_MESSAGE" value="Added open actions, overdue, % on time display on main table" />

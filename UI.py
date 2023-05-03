@@ -176,7 +176,6 @@ def count_nan(series):
 def format_df():
     str = 'C:\\Users\\223037435\\Desktop\\Plant II\\df.csv'
     str = 'df.csv'
-
     df = pd.read_csv(str)
     df['Open_Actions'] = df['is_date1_after_date2']
     df['DUEDATE'] = pd.to_datetime(df['DUEDATE'])
@@ -190,6 +189,31 @@ def format_df():
     df['Perc_On_Time'] = (df['On_Time'] / df['Completed'] *100).map('{:.1f}%'.format)
     df['Perc_On_Time'] = df['Perc_On_Time'].replace('nan%','')
     print(df)
+    return df
+
+def format_df_sum():
+    str = 'C:\\Users\\223037435\\Desktop\\Plant II\\df.csv'
+    str = 'dfx.csv'
+    df = pd.read_csv(str)
+    print(df)
+    df['Open_Closed_Prim'].fillna(value='0', inplace=True)
+    df = df.groupby(['Category', 'Open_Closed_Prim', 'PRIM_DESC']).size().reset_index()
+    df = df.groupby(['Category']).size().reset_index(name='Open_Items')
+    print(df)
+    # df = np.unique(df[['Category', 'Open_Closed_Prim']], axis=0)
+    # print(df)
+    # df['Open_Actions'] = df['is_date1_after_date2']
+    # df['DUEDATE'] = pd.to_datetime(df['DUEDATE'])
+    # today = datetime.datetime.now().date()
+    # df['Over_Due'] = ((df['DUEDATE'].dt.date < today) & (df['COMPDATE'].isna())).astype(int)
+    # df = df.rename(columns={'is_date1_after_date2': 'Late'})
+    # df['Completed'] = df['Late'] + df['On_Time']
+    # df0 = df
+    # df =df.groupby(['Category', 'PRIM_DESC', 'PRIM_OWNER']).agg({'On_Time': 'sum', 'Late': 'sum','Open_Actions': count_nan, 'Completed':'sum', 'Over_Due': 'sum'})
+    # df = pd.DataFrame(df).reset_index()
+    # df['Perc_On_Time'] = (df['On_Time'] / df['Completed'] *100).map('{:.1f}%'.format)
+    # df['Perc_On_Time'] = df['Perc_On_Time'].replace('nan%','')
+    # print(df)
     return df
 
 
@@ -215,17 +239,45 @@ def Yy():
 ###################################################################################
 
 @app.route('/', methods=['GET', 'POST'])
+def display_sum():
+    conn = get_db_connection()
+
+    sql1 = "UPDATE LISTS SET is_date1_after_date2 = date(DUEDATE) < date(COMPDATE);"
+    conn.execute(sql1)
+    sql1 = "UPDATE LISTS SET 'On_Time' = date(DUEDATE) > date(COMPDATE);"
+    conn.execute(sql1)
+    sql2 = 'SELECT * FROM LISTS'
+    df2 = pd.read_sql_query(sql2,conn)
+    df2.to_csv('dfx.csv', index=False)
+    df3 = format_df_sum()
+    df3.to_sql(f'SUMx', conn, if_exists='replace', index=False)
+    sql = f'SELECT * FROM SUMx'
+    LISTS2 = conn.execute(f'SELECT * FROM SUMx').fetchall()
+    df = pd.read_sql_query(sql, conn)
+    print(df)
+
+    cursor = conn.cursor()
+    rows = LISTS2
+    # for r in rows:
+    #     print(f'x  {r}')
+
+
+    conn.close()
+    return render_template('Summary.html', lst=LISTS2)
+@app.route('/xx', methods=['GET', 'POST'])
+
 def display_table():
     #users = User.select()
     # category = 'CID'
     #lst = LST.select()
+    category = request.args.get('category')
     if request.method == 'POST' and 'Display Table' in request.form.values():
         print("X")
-    if request.method == 'POST':
-        category = request.form['category']
-        print(category)
-    else:
-        category = 'CID'
+    # if request.method == 'POST':
+    #     category = request.form['category']
+    #     print(category)
+    # else:
+    #     category = 'CID'
 
 
     #create_table_sqlite()

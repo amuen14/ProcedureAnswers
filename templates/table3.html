@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>User Table X </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -8,13 +8,10 @@
         .myTableRow:hover {
             background-color: lightblue;
         }
-
         tbody {
             height:300px;
             overflow:auto:
         }
-
-
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -40,7 +37,8 @@
                 </thead>
                 <tbody>
                     {% for x in lst %}
-                    <tr class="myTableRow" style="height: 10px;" onclick="populateActionInput('{{ x.Action_desc }}')">
+<!--                    <tr class="myTableRow" style="height: 10px;" onclick="populateActionInput('{{ x.Action_desc }}')">-->
+                    <tr class="myTableRow" style="height: 10px;">
 
                         <td>{{x.ID}}</td>
                         <td>{{ x.Action_desc }}</td>
@@ -66,7 +64,6 @@
                       <label for="Prim_desc">Primary Owner:</label>
                       <input type="label" name="Prim_owner" id="Prim_owner" placeholder="owner" value={{owner}} readonly style="background-color: lightgrey;">
                       <input type="label" name="ID" id="ID" placeholder="ID" value={{ID}} readonly style="background-color: lightgrey;">
-
                         <input type="submit" name = "button" value="Back to All">
 
                     </div>
@@ -90,28 +87,27 @@
                           <input type="submit" name ="button" value='delete'>
                     </div>
                   </div>
-
-
+                </form>
             </div>
-        </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-          $('input[name="button"]').click(function(event) {
-            if ($(this).val() == 'Add') {
-              var action = $('input[name="action"]').val();
-              var owner = $('input[name="owner"]').val();
-              var dueDate = $('#dueDate').val();
 
-              if (action == '' || owner == '' || dueDate == '') {
-                alert('Please fill in all fields before submitting.');
-                event.preventDefault();
-              }
-            }
-          });
-        });
-    </script>
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--          $('input[name="button"]').click(function(event) {-->
+<!--            if ($(this).val() == 'Add') {-->
+<!--              var action = $('input[name="action"]').val();-->
+<!--              var owner = $('input[name="owner"]').val();-->
+<!--              var dueDate = $('#dueDate').val();-->
+
+<!--              if (action == '' || owner == '' || dueDate == '') {-->
+<!--                alert('Please fill in all fields before submitting.');-->
+<!--                event.preventDefault();-->
+<!--              }-->
+<!--            }-->
+<!--          });-->
+<!--        });-->
+<!--    </script>-->
 
     <script>
         $(document).ready(function() {
@@ -122,20 +118,19 @@
         // add the class to the clicked row
         $(this).addClass('highlighted-row');
 
-        // get the values from the relevant columns in the clicked row
-        var action = $(this).find('td:eq(1)').text();
-        var owner = $(this).find('td:eq(2)').text();
-        var dueDate = $(this).find('td:eq(3)').text();
-        var ID = $(this).find('td:eq(0)').text();
+<!--        // get the values from the relevant columns in the clicked row-->
+<!--        var action = $(this).find('td:eq(1)').text();-->
+<!--        var owner = $(this).find('td:eq(2)').text();-->
+<!--        var dueDate = $(this).find('td:eq(3)').text();-->
+<!--        var ID = $(this).find('td:eq(0)').text();-->
 
-        // set the values in the corresponding input fields
-        $('input[name="action"]').val(action);
-        $('input[name="owner"]').val(owner);
-        $('#dueDate').val(dueDate);
-        $('input[name="ID"]').val(ID);
+<!--        // set the values in the corresponding input fields-->
+<!--        $('input[name="action"]').val(action);-->
+<!--        $('input[name="owner"]').val(owner);-->
+<!--        $('#dueDate').val(dueDate);-->
+<!--        $('input[name="ID"]').val(ID);-->
     });
 });
-
     </script>
 
     <script>
@@ -156,6 +151,26 @@ $(document).ready(function() {
         $('input[name="ID"]').val(ID);
     });
 });
+    </script>
+
+    <script>
+        function openPopup() {
+            var myWindow = window.open("", "myWindow", "width=400,height=300");
+            myWindow.document.write('<form>');
+            myWindow.document.write('<label for="textbox1">Text Box 1:</label>');
+            myWindow.document.write('<input type="text" id="textbox1" name="textbox1"><br><br>');
+            myWindow.document.write('<label for="textbox2">Text Box 2:</label>');
+            myWindow.document.write('<input type="text" id="textbox2" name="textbox2"><br><br>');
+            myWindow.document.write('<button type="button" onclick="submitForm()">Submit</button>');
+            myWindow.document.write('</form>');
+            myWindow.document.close();
+        }
+        function submitForm() {
+            var textbox1Value = myWindow.document.getElementById("textbox1").value;
+            var textbox2Value = myWindow.document.getElementById("textbox2").value;
+            // do something with the values, e.g. submit them to the server using AJAX
+            myWindow.close();
+        }
     </script>
 
 
