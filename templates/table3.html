@@ -111,8 +111,30 @@
             }
           });
         });
+    </script>
 
+    <script>
+        $(document).ready(function() {
+    // add click event listener to each row in the table
+    $('.myTableRow').click(function() {
+        // remove the class from all rows in the table
+        $('.myTableRow').removeClass('highlighted-row');
+        // add the class to the clicked row
+        $(this).addClass('highlighted-row');
 
+        // get the values from the relevant columns in the clicked row
+        var action = $(this).find('td:eq(1)').text();
+        var owner = $(this).find('td:eq(2)').text();
+        var dueDate = $(this).find('td:eq(3)').text();
+        var ID = $(this).find('td:eq(0)').text();
+
+        // set the values in the corresponding input fields
+        $('input[name="action"]').val(action);
+        $('input[name="owner"]').val(owner);
+        $('#dueDate').val(dueDate);
+        $('input[name="ID"]').val(ID);
+    });
+});
 
     </script>
 
@@ -185,6 +207,10 @@ $(document).ready(function() {
   margin-right: 0;
 }
 
+.highlighted-row {
+    background-color: cornsilk;
+    color: black;
+}
 
 
 

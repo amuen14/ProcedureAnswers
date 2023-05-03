@@ -175,6 +175,8 @@ def count_nan(series):
 
 def format_df():
     str = 'C:\\Users\\223037435\\Desktop\\Plant II\\df.csv'
+    str = 'df.csv'
+
     df = pd.read_csv(str)
     df['Open_Actions'] = df['is_date1_after_date2']
     df['DUEDATE'] = pd.to_datetime(df['DUEDATE'])
@@ -187,28 +189,43 @@ def format_df():
     df = pd.DataFrame(df).reset_index()
     df['Perc_On_Time'] = (df['On_Time'] / df['Completed'] *100).map('{:.1f}%'.format)
     df['Perc_On_Time'] = df['Perc_On_Time'].replace('nan%','')
-
+    print(df)
     return df
 
 
 @app.route('/Y', methods=['POST'])
-def Y():
+def Yy():
     print("X")
     category = request.form['category']
     print(category)
-    return redirect('/')
+    conn = get_db_connection()
 
+    # for r in rows:
+    #     print(f'x  {r}')
+    sql = f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM {category}'
+    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM {category}').fetchall()
+    df = pd.read_sql_query(sql, conn)
+    print(df)
+    conn.commit()
+    conn.close()
+
+    return render_template(f'Table2.html', lst=LISTS2)
+
+
+###################################################################################
 
 @app.route('/', methods=['GET', 'POST'])
 def display_table():
     #users = User.select()
-    category = 'CID'
+    # category = 'CID'
     #lst = LST.select()
     if request.method == 'POST' and 'Display Table' in request.form.values():
         print("X")
     if request.method == 'POST':
         category = request.form['category']
         print(category)
+    else:
+        category = 'CID'
 
 
     #create_table_sqlite()
@@ -265,18 +282,24 @@ def display_table():
     df2 = pd.read_sql_query(sql2,conn)
     # print(df2)
     # print(df)
-    df2.to_csv('C:\\Users\\223037435\\Desktop\\Plant II\\df.csv', index=False)
+    # df2.to_csv('C:\\Users\\223037435\\Desktop\\Plant II\\df.csv', index=False)
+    df2.to_csv('df.csv', index=False)
+
     # print(category)
     df3 = format_df()
 
     # print(df3)
     df3 = df3[df3['Category']==category]
-    # print(df3)
+    print(df3)
     # conn.execute('DROP TABLE IF EXISTS mytable')
 
-    df3.to_sql('mytable', conn, if_exists='replace', index=False)
+    # df3.to_sql('mytable', conn, if_exists='replace', index=False)
+    df3.to_sql(f'{category}', conn, if_exists='replace', index=False)
 
-    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM mytable WHERE CATEGORY = "{category}"').fetchall()
+    sql = f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM {category}'
+    LISTS2 = conn.execute(f'SELECT DISTINCT CATEGORY, PRIM_DESC, PRIM_OWNER,Open_Actions,Over_Due,Perc_On_Time FROM {category}').fetchall()
+    df = pd.read_sql_query(sql, conn)
+    print(df)
 
     cursor = conn.cursor()
     rows = LISTS2

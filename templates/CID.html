@@ -1,24 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Compliance Action Tracker</title>
+    <title>User Table X </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 </head>
 <body>
 
     <div class="container">
-        <h1>Top Level Actions</h1>
-        <form action="/" method="POST">
-            <select name="category" id="categoryx" onchange="this.form.submit()">
-
-                <option value="Overview">Select</option>
-                <option value="CID">CID</option>
-                <option value="CAPA">CAPA</option>
-                <option value="Customer_Return">CustRet</option>
-                <option value="QEM">QEM</option>
-             </select>
-        </form>
+        <h1>Dataframe as Table</h1>
         <table class="table table-bordered", id="myTable">
             <thead>
                 <tr>
@@ -51,13 +41,13 @@
             <div class="container" id="myForm" >
                 <form action="/add_Primary_Item" method="POST">
                       <label for="category">Choose a category:</label> <br>
-                          <select name="category" id="category" onchange="document.getElementById('myForm').submit()">
-                            <option value="CID">CID</option>
-                            <option value="CAPA">CAPA</option>
-                            <option value="Customer_Return">CustRet</option>
-                            <option value="QEM">QEM</option>
-                          </select>
-<!--                    <br>-->
+                      <select name="category" id="category" onchange="updateTable()">
+                        <option value="CID">CID</option>
+                        <option value="CAPA">CAPA</option>
+                        <option value="Customer Return">CustRet</option>
+                        <option value="QEM">QEM</option>
+                      </select>
+                    <br>
                     <input type="text" name="Prim_desc" placeholder="Item name"><br>
                     <input type="text" name="Prim_owner" placeholder="Primary Owner">
                     <input type="submit" value="Add Item">
@@ -105,29 +95,29 @@
 </style>
 
 
-<!--<script>-->
+<script>
 
-<!--function updateTable() {-->
+function updateTable() {
 
-<!--    var category = document.getElementById("category").value;-->
-<!--    var xhr = new XMLHttpRequest();-->
-<!--    xhr.open("POST", "/Y");-->
-<!--&lt;!&ndash;    xhr.send();&ndash;&gt;-->
-<!--    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");-->
-<!--&lt;!&ndash;    xhr.onreadystatechange = function() {&ndash;&gt;-->
-<!--&lt;!&ndash;        if (xhr.readyState === XMLHttpRequest.DONE) {&ndash;&gt;-->
-<!--&lt;!&ndash;        console.log("?");&ndash;&gt;-->
-<!--&lt;!&ndash;            if (xhr.status === 200) {&ndash;&gt;-->
-<!--&lt;!&ndash;                // refresh the table with the new data&ndash;&gt;-->
-<!--&lt;!&ndash;                // ...&ndash;&gt;-->
-<!--&lt;!&ndash;            } else {&ndash;&gt;-->
-<!--&lt;!&ndash;                console.log('Error:', xhr.status);&ndash;&gt;-->
-<!--&lt;!&ndash;            }&ndash;&gt;-->
-<!--&lt;!&ndash;        }&ndash;&gt;-->
-<!--&lt;!&ndash;    };&ndash;&gt;-->
-<!--    xhr.send("category=" + encodeURIComponent(category));-->
-<!--}-->
-<!--</script>-->
+    var category = document.getElementById("category").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Y");
+<!--    xhr.send();-->
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+<!--    xhr.onreadystatechange = function() {-->
+<!--        if (xhr.readyState === XMLHttpRequest.DONE) {-->
+<!--        console.log("?");-->
+<!--            if (xhr.status === 200) {-->
+<!--                // refresh the table with the new data-->
+<!--                // ...-->
+<!--            } else {-->
+<!--                console.log('Error:', xhr.status);-->
+<!--            }-->
+<!--        }-->
+<!--    };-->
+    xhr.send("category=" + encodeURIComponent(category));
+}
+</script>
 
 <!--<script>-->
 <!--  function updateTable() {-->
